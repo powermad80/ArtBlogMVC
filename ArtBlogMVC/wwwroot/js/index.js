@@ -1,14 +1,17 @@
-﻿var CommentBox = React.createClass({
-    render: function () {
+﻿class TestIt extends React.Component {
+    render() {
         return (
-            <div className="commentBox">
-                Hello, world! I am a CommentBox.
-      </div>
+            <h1>It's Alive!</h1>
         );
     }
-});
+}
+
+class Post extends React.Component {
+
+}
+
+
 ReactDOM.render(
-    <CommentBox />,
+    <TestIt />,
     document.getElementById('content')
 );
-// Write your Javascript code.
