@@ -18,10 +18,12 @@ class Post extends React.Component {
                 </div>
                 
                 <div className="post-img">
-                    <img src={this.props.imgUrl} height="600" width="400" />
+                    <img className="post-img-tag" src={this.props.imgUrl} />
                 </div>
 
                 <div className="post-footer">
+                    <span>{this.props.tags}</span>
+                    <hr />
                     <p>{this.props.description}</p>
                 </div>
             </div>
@@ -30,26 +32,19 @@ class Post extends React.Component {
 }
 
 
-var content = Array();
-content[0] = {
-    Id: 1,
-    title: "test",
-    imgUrl: "https://pbs.twimg.com/media/DTp8sPpX4AAmb4L.jpg",
-    description: "test description"
-};
+$.ajax({
+    async: true,
+    url: "Home/GetPosts",
+    success: function (data) {
+        const listContent = data.map((data) =>
+            <Post className="post" key={data.id} title={data.title} imgUrl={data.imgUrl} description={data.description} tags={data.tags} />
+        );
+        ReactDOM.render(
+            <div className="feed">{listContent}</div>,
+            document.getElementById('content')
+        );
+    }
+});
 
-content[1] = {
-    Id: 2,
-    title: "second test",
-    imgUrl: "https://puu.sh/yXnYu.png",
-    description: "the second test description"
-};
 
-const listContent = content.map((content) =>
-    <Post title={content.title} imgUrl={content.imgUrl} description={content.description} />
-);
-    ReactDOM.render(
-        <div className="feed">{listContent}</div>,
-        document.getElementById('content')
-    );
 

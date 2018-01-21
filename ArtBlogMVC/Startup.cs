@@ -8,7 +8,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using React.AspNet;
+using System.Data.SqlClient;
+using ArtBlogMVC.Controllers;
+using System.Data.SqlTypes;
 
 
 namespace ArtBlogMVC
@@ -35,6 +39,9 @@ namespace ArtBlogMVC
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddReact();
             services.AddMvc();
+
+            //services.AddDbContext<ArtBlogContext>(options =>
+            //    options.UseSqlite("Data Source=Data.db"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
