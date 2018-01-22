@@ -17,6 +17,11 @@ namespace ArtBlogMVC.Controllers
             return View();
         }
 
+        public IActionResult Login()
+        {
+            return View();
+        }
+
         public JsonResult GetPosts(int page = 1)
         {
             List<POST> result = ArtRepo.GetPosts(page);

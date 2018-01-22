@@ -1,7 +1,10 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
-    background-color: #494949;
+    /*background-color: #494949;*/
+    background-image: url("https://puu.sh/z6UF6.png");
+    background-repeat: repeat;
+    background-attachment: fixed;
 }
 
 .post {
@@ -14,7 +17,8 @@
     margin-bottom: 10px;
     margin-top: 10px;
     /*margin-right: 20%;*/
-    background-color: #ffffff; /*#c0c0c0;*/
+    
+    background-color: #dfdfdf; /*#ffffff; #c0c0c0;*/
     padding-bottom: 20px;
 }
 
@@ -54,6 +58,31 @@ hr {
 /*.sidenav h2 {
     text-align: center;
 }*/
+
+.login-dialog {
+    height: 200px;
+    width: 300px;
+    border-radius: 5px;
+    margin: auto;
+    background-color: #dfdfdf;
+}
+
+.login-dialog h1 {
+    margin-top: 20px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.login-dialog p {
+    margin: auto;
+    text-align: center;
+    padding: 5px;
+}
+
+.login-dialog input, button {
+    border-radius: 2px;
+}
 
 .sidenav h2, p, input {
     margin-top: 0px;
