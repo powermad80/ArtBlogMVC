@@ -8,8 +8,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using React.AspNet;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Data.SqlClient;
 using ArtBlogMVC.Controllers;
 using System.Data.SqlTypes;
@@ -36,9 +38,30 @@ namespace ArtBlogMVC
         {
 
             // Add framework services.
+            services.AddIdentity<AdminUser, AdminRole>()
+                .AddDefaultTokenProviders();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                options.Lockout.MaxFailedAccessAttempts = 8;
+
+                options.Cookies.ApplicationCookie.ExpireTimeSpan = TimeSpan.FromDays(3);
+                options.Cookies.ApplicationCookie.LoginPath = "/Home/Login";
+            });
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddReact();
             services.AddMvc();
+
+            
+
 
             //services.AddDbContext<ArtBlogContext>(options =>
             //    options.UseSqlite("Data Source=Data.db"));
@@ -81,6 +104,16 @@ namespace ArtBlogMVC
             });
 
             app.UseStaticFiles();
+            app.UseIdentity();
+
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                AccessDeniedPath = "/Home/LoginFailed",
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                LoginPath = "/Home/Login"
+            });
+
 
             app.UseMvc(routes =>
             {
@@ -88,6 +121,8 @@ namespace ArtBlogMVC
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            
         }
     }
 }
