@@ -25,8 +25,8 @@ namespace ArtBlogMVC.Controllers
             return View();
         }
 
-        [HttpGet]
-        public IActionResult Authenticate(string username, string password)
+        [HttpPost]
+        public async Task<IActionResult> Authenticate(string username, string password)
         {
             string loginusername = "test";
             string loginpassword = "test";
@@ -34,14 +34,14 @@ namespace ArtBlogMVC.Controllers
             if (username == loginusername && password == loginpassword)
             {
 
-                GetAuth();
+                await HttpContext.Authentication.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal());
                 //var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
 
                 //HttpContext.Authentication.SignInAsync(
                 //    CookieAuthenticationDefaults.AuthenticationScheme,
                 //    new ClaimsPrincipal(identity));
-                
-                return Redirect("~/Home/Index.cshtml");
+
+                return Redirect("~/");
             }
             else
             {
