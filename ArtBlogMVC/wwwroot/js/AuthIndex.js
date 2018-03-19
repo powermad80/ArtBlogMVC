@@ -16,12 +16,10 @@ class Post extends React.Component {
                 <div className="post-header">
                     <h3>{this.props.title}</h3>
                 </div>
-                
+
                 <div className="post-img">
-                    <a href={"Posts/img?id=" + this.props.id}>
-                        <img className="post-img-tag" src={this.props.imgUrl} />
-                    </a>
-                </div> 
+                    <img className="post-img-tag" src={this.props.imgUrl} />
+                </div>
 
                 <div className="post-footer">
                     <span>{this.props.tags}</span>
@@ -29,7 +27,7 @@ class Post extends React.Component {
                     <p>{this.props.description}</p>
                 </div>
             </div>
-            )
+        )
     }
 }
 
@@ -40,7 +38,7 @@ $.ajax({
     url: "Home/GetPosts",
     success: function (data) {
         const listContent = data.map((data) =>
-            <Post className="post" key={data.id} id={data.id} title={data.title} imgUrl={data.imgUrl} description={data.description} tags={data.tags} />
+            <Post className="post" key={data.id} title={data.title} imgUrl={data.imgUrl} description={data.description} tags={data.tags} />
         );
         ReactDOM.render(
             <div className="feed">{listContent}</div>,

@@ -44,6 +44,30 @@ namespace ArtBlogMVC.Controllers
             }
             return result;
         }
+
+        public static POST GetPost(int id)
+        {
+            List<POST> result;
+            using (IDbConnection con = DataModules.DBConnection())
+            {
+                string query = "SELECT Title, ImgUrl, Description, Tags, Date FROM POSTS WHERE Id = " + id;
+                con.Open();
+                result = con.Query<POST>(query).ToList<POST>();
+                con.Close();
+            }
+            return result.First<POST>();
+        }
+
+        public static void AddPost(POST newPost)
+        {
+            using (IDbConnection con = DataModules.DBConnection())
+            {
+                con.Open();
+                con.Insert<POST>(newPost);
+                con.Close();
+            }
+            return;
+        }
     }
 
     [Table("POSTS")]

@@ -1,0 +1,17 @@
+﻿@{
+    Layout = "_AuthLayout";
+}
+<div class="sidenav">
+    <h2>ADMIN Site</h2>
+    <p>Sample Text</p>
+    <p><form action="/Home/NewPost">
+    <button>New Post</button>
+    </form></p>
+    <input type="text" placeholder="Search..." />
+
+</div>
+<div class="feed" id="content"></div>
+
+
+<script type="text/babel" src="@Url.Content("~/js/Index.js")">
+</script>

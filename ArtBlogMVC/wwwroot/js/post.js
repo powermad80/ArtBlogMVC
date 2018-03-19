@@ -1,12 +1,4 @@
-﻿class TestIt extends React.Component {
-    render() {
-        return (
-            <h1>It's Alive!</h1>
-        );
-    }
-}
-
-class Post extends React.Component {
+﻿class Post extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -16,12 +8,12 @@ class Post extends React.Component {
                 <div className="post-header">
                     <h3>{this.props.title}</h3>
                 </div>
-                
+
                 <div className="post-img">
-                    <a href={"Posts/img?id=" + this.props.id}>
+                    <a href={"Posts/" + this.props.id}>
                         <img className="post-img-tag" src={this.props.imgUrl} />
                     </a>
-                </div> 
+                </div>
 
                 <div className="post-footer">
                     <span>{this.props.tags}</span>
@@ -29,23 +21,34 @@ class Post extends React.Component {
                     <p>{this.props.description}</p>
                 </div>
             </div>
-            )
+        )
     }
 }
 
+var url = window.location.href.split('=');
+var postid = url[url.length - 1]
 
 $.ajax({
     async: true,
     type: "POST",
-    url: "Home/GetPosts",
+    url: "GetPostData",
+    data: { id: postid },
     success: function (data) {
-        const listContent = data.map((data) =>
-            <Post className="post" key={data.id} id={data.id} title={data.title} imgUrl={data.imgUrl} description={data.description} tags={data.tags} />
-        );
+
+        
+
         ReactDOM.render(
-            <div className="feed">{listContent}</div>,
+            <Post className="post" id={data.id} title={data.title} imgUrl={data.imgUrl} description={data.description} tags={data.tags} />,
             document.getElementById('content')
         );
+
+        //const listContent = data.map((data) =>
+        //    <Post className="post" key={data.id} id={data.id} title={data.title} imgUrl={data.imgUrl} description={data.description} tags={data.tags} />
+        //);
+        //ReactDOM.render(
+        //    <div className="solofeed">{listContent}</div>,
+        //    document.getElementById('content')
+        //);
     }
 });
 

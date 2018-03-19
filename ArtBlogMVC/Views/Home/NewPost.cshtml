@@ -1,0 +1,12 @@
+﻿@{
+    Layout = "_AuthLayout";
+}
+
+    <form action="AddPost" enctype="multipart/form-data" method="post" class="post-dialog" id="content">
+        <h1>New Post</h1>
+        <p><input type="text" name="Title" placeholder="Title" /></p>
+        <p><input type="file" name="pic" accept="image/*"></p>
+        <p><textarea rows="4" cols="50" name="description" placeholder="Description"></textarea></p>
+        <p><input type="text" name="Tags" placeholder="Tags, separated by comma" /></p>
+        <p><input type="submit" value="Upload" class="postsubmit" /></p>
+    </form>

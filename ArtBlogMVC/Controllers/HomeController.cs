@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Data.SqlClient;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,35 +18,69 @@ namespace ArtBlogMVC.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            return View("~/Views/Home/Index.cshtml");
+
+            byte[] val = BitConverter.GetBytes(1);
+            if (CheckAuth())
+            {
+                return View("~/Views/Home/Admindex.cshtml");
+            }
+            else
+            {
+                return View("~/Views/Home/Index.cshtml");
+            }
+            
+        }
+
+        //[Authorize]
+        public IActionResult Admindex()
+        {
+            return View("~/Views/Home/Admindex.cshtml");
         }
 
         public IActionResult Login()
         {
-            return View();
+            return View("~/Views/Home/Login.cshtml");
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove("auth");
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public IActionResult NewPost()
+        {
+            if (CheckAuth())
+            {
+                return View("~/Views/Home/NewPost.cshtml");
+            }
+            else
+            {
+                return View("~/Views/Home/Login.cshtml");
+            }
+        }
+
+        public bool CheckAuth()
+        {
+            byte[] val = BitConverter.GetBytes(1);
+            return (HttpContext.Session.TryGetValue("auth", out val));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Authenticate(string username, string password)
+        public IActionResult Authenticate(string username, string password)
         {
             string loginusername = "test";
             string loginpassword = "test";
 
             if (username == loginusername && password == loginpassword)
             {
-
-                await HttpContext.Authentication.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal());
-                //var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-
-                //HttpContext.Authentication.SignInAsync(
-                //    CookieAuthenticationDefaults.AuthenticationScheme,
-                //    new ClaimsPrincipal(identity));
-
-                return Redirect("~/");
+                HttpContext.Session.Set("auth", BitConverter.GetBytes(1));
+                return RedirectToAction("Index");
             }
             else
             {
-                return new ObjectResult("Login failed");
+                return View("~/Views/Home/LoginFailed.cshtml");
             }
         }
 
@@ -54,6 +89,7 @@ namespace ArtBlogMVC.Controllers
             await HttpContext.Authentication.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal());
         }
 
+        [HttpPost]
         public JsonResult GetPosts(int page = 1)
         {
             List<POST> result = ArtRepo.GetPosts(page);
@@ -63,6 +99,21 @@ namespace ArtBlogMVC.Controllers
                     i.Tags = i.Tags.Replace(",", string.Empty);
             }
             return Json(result);
+        }
+
+        [HttpPost]
+        public IActionResult AddPost()
+        {
+
+            IFormFile pic = HttpContext.Request.Form.Files[0];
+            POST newPost = new POST();
+            newPost.Description = HttpContext.Request.Form["Description"];
+            newPost.Title = HttpContext.Request.Form["Title"];
+            newPost.Tags = HttpContext.Request.Form["Tags"];
+            newPost.Date = DateTime.Now;
+            int i = 1;
+            return View();
+
         }
     }
 }

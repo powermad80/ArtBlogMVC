@@ -59,8 +59,13 @@ namespace ArtBlogMVC
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddReact();
             services.AddMvc();
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromHours(1);
+                options.CookieHttpOnly = true;
+            });
 
-            
 
 
             //services.AddDbContext<ArtBlogContext>(options =>
@@ -105,6 +110,7 @@ namespace ArtBlogMVC
 
             app.UseStaticFiles();
             app.UseIdentity();
+            app.UseSession();
 
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {

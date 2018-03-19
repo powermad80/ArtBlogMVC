@@ -37,10 +37,6 @@ hr {
     border-color: #c0c0c0;
 }
 
-.feed {
-    
-}
-
 .sidenav {
     border-radius: 5px;
     max-width: 200px;
@@ -58,6 +54,47 @@ hr {
 /*.sidenav h2 {
     text-align: center;
 }*/
+
+.post-dialog {
+    height: 325px;
+    width: 500px;
+    border-radius: 5px;
+    margin: auto;
+    background-color: #dfdfdf;
+}
+
+.post-dialog h1 {
+    margin-top: 20px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.post-dialog p {
+    left: 10px;
+    padding: 2px;
+}
+
+.post-dialog textarea {
+    margin-left: 5px;
+    border-radius: 5px;
+}
+
+.post-dialog input {
+    border-radius: 2px;
+    left: 10px;
+}
+
+.post-dialog input, textarea {
+    min-width: 475px;
+}
+
+.postsubmit {
+    margin-left: 39% !important;
+    min-width: 100px !important;
+}
+
+
 
 .login-dialog {
     height: 200px;
