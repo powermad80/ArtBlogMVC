@@ -36,7 +36,7 @@ namespace ArtBlogMVC.Controllers
             List<POST> result;
             using (IDbConnection con = DataModules.DBConnection())
             {
-                string query = "SELECT Id, Title, ImgUrl, Description, Tags, Date FROM POSTS WHERE Deleted IS NULL ORDER BY Date DESC";
+                string query = "SELECT Id, Title, ImgUrl, Description, Tags, Date FROM POSTS WHERE Deleted = 0 ORDER BY Date DESC";
 
                 con.Open();
                 result = con.Query<POST>(query).ToList<POST>();
@@ -68,6 +68,23 @@ namespace ArtBlogMVC.Controllers
             }
             return;
         }
+
+        public static void UpdatePost(POST editedPost)
+        {
+            using (SqliteConnection con = DataModules.DBConnection())
+            {
+                string query = "UPDATE POSTS SET Description = @description, Tags = @tags, Title = @title, Deleted = @deleted WHERE Id = @id";
+                SqliteCommand c = new SqliteCommand(query, con);
+                c.Parameters.AddWithValue("@description", editedPost.Description);
+                c.Parameters.AddWithValue("@tags", editedPost.Tags);
+                c.Parameters.AddWithValue("@title", editedPost.Title);
+                c.Parameters.AddWithValue("@deleted", editedPost.Deleted);
+                c.Parameters.AddWithValue("@id", editedPost.Id);
+                con.Open();
+                c.ExecuteNonQuery();
+                con.Close();
+            }
+        }
     }
 
     [Table("POSTS")]
@@ -82,6 +99,8 @@ namespace ArtBlogMVC.Controllers
         public string Description { get; set; }
 
         public string Tags { get; set; }
+
+        public int Deleted { get; set; }
 
         public DateTime Date { get; set; }
     }
