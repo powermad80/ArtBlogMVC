@@ -36,7 +36,7 @@ namespace ArtBlogMVC.Controllers
             List<POST> result;
             using (IDbConnection con = DataModules.DBConnection())
             {
-                string query = "SELECT Id, Title, ImgUrl, Description, Tags, Date FROM POSTS ORDER BY Date";
+                string query = "SELECT Id, Title, ImgUrl, Description, Tags, Date FROM POSTS WHERE Deleted IS NULL ORDER BY Date DESC";
 
                 con.Open();
                 result = con.Query<POST>(query).ToList<POST>();

@@ -40,8 +40,8 @@ $.ajax({
     url: "Home/GetPosts",
     success: function (data) {
         const listContent = data.map((data) =>
-            <Post className="post" key={data.id} id={data.id} title={data.title} imgUrl={data.imgUrl} description={data.description} tags={data.tags} />
-        );
+            <Post className="post" key={data.id} id={data.id} title={data.title} imgUrl={"http://localhost:55621/" + data.imgUrl} description={data.description} tags={data.tags} />
+        );                                                                              //Replace with window.location.hostname on deployment to actual URL
         ReactDOM.render(
             <div className="feed">{listContent}</div>,
             document.getElementById('content')

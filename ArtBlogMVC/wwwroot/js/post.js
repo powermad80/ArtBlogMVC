@@ -21,12 +21,12 @@
                     <p>{this.props.description}</p>
                 </div>
             </div>
-        )
+        );
     }
 }
 
 var url = window.location.href.split('=');
-var postid = url[url.length - 1]
+var postid = url[url.length - 1];
 
 $.ajax({
     async: true,
@@ -38,8 +38,8 @@ $.ajax({
         
 
         ReactDOM.render(
-            <Post className="post" id={data.id} title={data.title} imgUrl={data.imgUrl} description={data.description} tags={data.tags} />,
-            document.getElementById('content')
+            <Post className="post" id={data.id} title={data.title} imgUrl={"http://localhost:55621/" + data.imgUrl} description={data.description} tags={data.tags} />,
+            document.getElementById('content')                             //Replace with window.location.hostname on deployment to actual URL
         );
 
         //const listContent = data.map((data) =>

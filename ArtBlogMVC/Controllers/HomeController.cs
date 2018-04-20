@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
+using System.IO;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -106,13 +107,21 @@ namespace ArtBlogMVC.Controllers
         {
 
             IFormFile pic = HttpContext.Request.Form.Files[0];
+            string extension = Path.GetExtension(pic.FileName);
             POST newPost = new POST();
             newPost.Description = HttpContext.Request.Form["Description"];
             newPost.Title = HttpContext.Request.Form["Title"];
             newPost.Tags = HttpContext.Request.Form["Tags"];
             newPost.Date = DateTime.Now;
-            int i = 1;
-            return View();
+            string filename = "pics/" + DateTime.Now.Ticks.ToString() + extension;
+            using (FileStream fs = System.IO.File.Create("wwwroot/" + filename))
+            {
+                pic.CopyTo(fs);
+                fs.Flush();
+            }
+            newPost.ImgUrl = filename;
+            ArtRepo.AddPost(newPost);
+            return RedirectToAction("Index");
 
         }
     }
