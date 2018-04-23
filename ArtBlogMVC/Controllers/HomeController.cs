@@ -91,10 +91,18 @@ namespace ArtBlogMVC.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetPosts(int page = 1)
+        public JsonResult GetPosts(int page = 1, string search = "")
         {
-            List<POST> result = ArtRepo.GetPosts();
-
+            List<POST> result;
+            if (search == null)
+            {
+                result = ArtRepo.GetPosts();
+            }
+            else
+            {
+                result = ArtRepo.SearchPosts(search);
+            }
+            
             int start = 10 * (page - 1);
             int end = (10 * page) - 1;
             bool leftArrow = true;

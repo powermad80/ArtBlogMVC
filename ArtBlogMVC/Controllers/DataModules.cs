@@ -45,6 +45,20 @@ namespace ArtBlogMVC.Controllers
             return result;
         }
 
+        public static List<POST> SearchPosts(string term)
+        {
+            List<POST> result;
+            using (IDbConnection con = DataModules.DBConnection())
+            {
+                string query = "SELECT Id, Title, ImgUrl, Description, Tags, Date FROM POSTS WHERE Deleted = 0 AND Tags LIKE '%" + term + "%' ORDER BY Date DESC";
+
+                con.Open();
+                result = con.Query<POST>(query).ToList<POST>();
+                con.Close();
+            }
+            return result;
+        }
+
         public static POST GetPost(int id)
         {
             List<POST> result;

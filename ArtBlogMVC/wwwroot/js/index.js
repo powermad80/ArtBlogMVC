@@ -53,11 +53,15 @@ class Post extends React.Component {
 var pagenum = 1;
 
 function LoadPage() {
+    var search = document.getElementById("search").value;
     $.ajax({
         aync: true,
         type: "POST",
         url: "Home/GetPosts",
-        data: { page: pagenum },
+        data: {
+            page: pagenum,
+            search: search
+        },
         success: function (data) {
             var posts = data.posts;
             const listContent = data.posts.map((posts) =>
@@ -89,6 +93,12 @@ function PreviousPage() {
         LoadPage();
     }
 }
+
+$('#search').keyup(function (e) {
+    if (e.keyCode === 13) {
+        LoadPage();
+    }
+});
 
 LoadPage();
 document.getElementById("nav-left").addEventListener("click", PreviousPage);
