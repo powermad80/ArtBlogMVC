@@ -42,13 +42,6 @@ $.ajax({
             document.getElementById('content')                             //Replace with window.location.hostname on deployment to actual URL
         );
 
-        //const listContent = data.map((data) =>
-        //    <Post className="post" key={data.id} id={data.id} title={data.title} imgUrl={data.imgUrl} description={data.description} tags={data.tags} />
-        //);
-        //ReactDOM.render(
-        //    <div className="solofeed">{listContent}</div>,
-        //    document.getElementById('content')
-        //);
     }
 });
 

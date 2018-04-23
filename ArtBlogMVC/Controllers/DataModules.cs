@@ -31,7 +31,7 @@ namespace ArtBlogMVC.Controllers
 
     public static class ArtRepo
     {
-        public static List<POST> GetPosts(int page = 1)
+        public static List<POST> GetPosts()
         {
             List<POST> result;
             using (IDbConnection con = DataModules.DBConnection())
@@ -71,6 +71,22 @@ namespace ArtBlogMVC.Controllers
 
         public static void UpdatePost(POST editedPost)
         {
+
+            if (editedPost.Description == null)
+            {
+                editedPost.Description = "";
+            }
+
+            if (editedPost.Tags == null)
+            {
+                editedPost.Tags = "";
+            }
+
+            if (editedPost.Title == null)
+            {
+                editedPost.Title = "";
+            }
+
             using (SqliteConnection con = DataModules.DBConnection())
             {
                 string query = "UPDATE POSTS SET Description = @description, Tags = @tags, Title = @title, Deleted = @deleted WHERE Id = @id";

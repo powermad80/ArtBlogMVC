@@ -31,39 +31,24 @@ namespace ArtBlogMVC.Controllers
             return Json(result);
         }
 
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
         [HttpPost]
-        public IActionResult SaveChanges()
+        public JsonResult SaveChanges(POST editedPost)
         {
 
             if (!CheckAuth())
             {
-                return RedirectToAction("Home/Login");
+                return new JsonResult("403");
             }
-
-            POST editedPost = new POST();
-            editedPost.Id = Int32.Parse(HttpContext.Request.Form["postId"]);
-            editedPost.Title = HttpContext.Request.Form["title"];
-            editedPost.Description = HttpContext.Request.Form["description"];
-            editedPost.Tags = HttpContext.Request.Form["tags"];
-            if (HttpContext.Request.Form.ContainsKey("delete"))
-            {
-                editedPost.Deleted = Int32.Parse(HttpContext.Request.Form["delete"]);
-            }
-            //else
-            //{
-            //    editedPost.Deleted = 0;
-            //}
 
             ArtRepo.UpdatePost(editedPost);
 
-            if (editedPost.Deleted == 1)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            else
-            {
-                return RedirectToAction("img");
-            }
+            return new JsonResult("success");
         }
 
         public bool CheckAuth()

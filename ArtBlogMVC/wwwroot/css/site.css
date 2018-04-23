@@ -49,11 +49,8 @@ hr {
     background: #eee;
     overflow-x: hidden;
     padding: 8px 0;
-}
-
-/*.sidenav h2 {
     text-align: center;
-}*/
+}
 
 .post-dialog {
     height: 325px;

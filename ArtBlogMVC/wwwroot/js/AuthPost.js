@@ -4,7 +4,7 @@
     }
     render() {
         return (
-            <form action="SaveChanges" encType="multipart/form-data" method="post" className="post">
+            <div /*action="SaveChanges" encType="multipart/form-data" method="post"*/ className="post">
                 <div className="post-header">
                     <h3><input type="text" name="title" id="title" defaultValue={this.props.title}></input></h3>
                 </div>
@@ -20,9 +20,9 @@
                 </div>
                 <input type="checkbox" name="delete" id="delete" value={1} ></input>
                 <label>Delete Post</label>
-                <p><button type="submit">Save Changes</button></p>
+                <p><button onClick={UpdatePost} >Save Changes</button></p>
                 <input type="hidden" name="postId" id="postId" />
-            </form>
+            </div>
         );
     }
 }
@@ -46,15 +46,44 @@ $.ajax({
 
         document.getElementById('postId').value = postid;
 
-        //const listContent = data.map((data) =>
-        //    <Post className="post" key={data.id} id={data.id} title={data.title} imgUrl={data.imgUrl} description={data.description} tags={data.tags} />
-        //);
-        //ReactDOM.render(
-        //    <div className="solofeed">{listContent}</div>,
-        //    document.getElementById('content')
-        //);
     }
 });
+
+function UpdatePost() {
+    var checked = 0;
+    if (document.getElementById("delete").checked) {
+        checked = 1;
+    }
+
+    var editedPost = {
+        Id: postid,
+        Title: document.getElementById("title").value,
+        Description: document.getElementById("description").value,
+        Tags: document.getElementById("tags").value,
+        Deleted: checked
+    };
+
+    $.ajax({
+        async: true,
+        type: "POST",
+        url: "SaveChanges",
+        data: { editedPost: editedPost },
+        success: function (data) {
+            if (data === "403") {
+                window.alert("Authentication failed, please log in");
+            }
+
+            if (data == "success") {
+                if (editedPost.Deleted == 1) {
+                    window.location.href = "Index";
+                }
+                else {
+                    window.location.reload();
+                }
+            }
+        }
+    });
+}
 
 
 

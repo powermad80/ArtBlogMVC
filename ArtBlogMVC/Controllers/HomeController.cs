@@ -93,13 +93,55 @@ namespace ArtBlogMVC.Controllers
         [HttpPost]
         public JsonResult GetPosts(int page = 1)
         {
-            List<POST> result = ArtRepo.GetPosts(page);
-            foreach (POST i in result)
+            List<POST> result = ArtRepo.GetPosts();
+
+            int start = 10 * (page - 1);
+            int end = (10 * page) - 1;
+            bool leftArrow = true;
+            bool rightArrow = false;
+
+            if (page > 1)
+            {
+                leftArrow = false;
+            }
+
+            if (result.Count - 1 == end)
+            {
+                rightArrow = true;
+            }
+
+            if (result.Count - 1 < start)
+            {
+                start = result.Count - 1;
+            }
+
+            if (result.Count - 1 < end)
+            {
+                end = result.Count - 1;
+                rightArrow = true;
+            }
+
+            var ArrowState = new
+            {
+                rightArrow = rightArrow,
+                leftArrow = leftArrow
+            };
+
+            List<POST> Posts = result.GetRange(start, (end + 1) - start);
+
+            foreach (POST i in Posts)
             {
                 if (i.Tags != null)
                     i.Tags = i.Tags.Replace(",", string.Empty);
             }
-            return Json(result);
+
+            var Send = new
+            {
+                Posts = Posts,
+                ArrowState = ArrowState
+            };
+
+            return Json(Send);
         }
 
         [HttpPost]
@@ -113,6 +155,7 @@ namespace ArtBlogMVC.Controllers
             newPost.Title = HttpContext.Request.Form["Title"];
             newPost.Tags = HttpContext.Request.Form["Tags"];
             newPost.Date = DateTime.Now;
+            newPost.Deleted = 0;
             string filename = "pics/" + DateTime.Now.Ticks.ToString() + extension;
             using (FileStream fs = System.IO.File.Create("wwwroot/" + filename))
             {
