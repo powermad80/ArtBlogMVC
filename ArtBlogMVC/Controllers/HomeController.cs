@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -71,8 +72,8 @@ namespace ArtBlogMVC.Controllers
         [HttpPost]
         public IActionResult Authenticate(string username, string password)
         {
-            string loginusername = "test";
-            string loginpassword = "test";
+            string loginusername = ConfigData.Username();
+            string loginpassword = ConfigData.Password();
 
             if (username == loginusername && password == loginpassword)
             {
