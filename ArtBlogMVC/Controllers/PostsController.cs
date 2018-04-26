@@ -53,8 +53,8 @@ namespace ArtBlogMVC.Controllers
 
         public bool CheckAuth()
         {
-            byte[] val = BitConverter.GetBytes(1);
-            return (HttpContext.Session.TryGetValue("auth", out val));
+            byte[] val = ConfigData.Key();
+            return (HttpContext.Session.TryGetValue(ConfigData.Password(), out val));
         }
     }
 }

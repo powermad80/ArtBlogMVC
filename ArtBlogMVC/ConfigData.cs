@@ -17,5 +17,10 @@ namespace ArtBlogMVC
         {
             return XDocument.Load("Config.xml").Descendants("password").First().Value;
         }
+
+        public static Byte[] Key()
+        {
+            return BitConverter.GetBytes(Int32.Parse(XDocument.Load("Config.xml").Descendants("key").First().Value));
+        }
     }
 }

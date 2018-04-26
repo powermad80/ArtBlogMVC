@@ -65,19 +65,17 @@ namespace ArtBlogMVC.Controllers
 
         public bool CheckAuth()
         {
-            byte[] val = BitConverter.GetBytes(1);
-            return (HttpContext.Session.TryGetValue("auth", out val));
+            byte[] val = ConfigData.Key();
+            return (HttpContext.Session.TryGetValue(ConfigData.Password(), out val));
         }
 
         [HttpPost]
         public IActionResult Authenticate(string username, string password)
         {
-            string loginusername = ConfigData.Username();
-            string loginpassword = ConfigData.Password();
 
-            if (username == loginusername && password == loginpassword)
+            if (username == ConfigData.Username() && password == ConfigData.Password())
             {
-                HttpContext.Session.Set("auth", BitConverter.GetBytes(1));
+                HttpContext.Session.Set(ConfigData.Password(), ConfigData.Key());
                 return RedirectToAction("Index");
             }
             else
