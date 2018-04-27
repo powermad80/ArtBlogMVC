@@ -6,7 +6,7 @@
         return (
             <div /*action="SaveChanges" encType="multipart/form-data" method="post"*/ className="post">
                 <div className="post-header">
-                    <h3><input type="text" name="title" id="title" defaultValue={this.props.title}></input></h3>
+                    <h3><input style={{ minWidth: 565 }} type="text" name="title" id="title" defaultValue={this.props.title}></input></h3>
                 </div>
 
                 <div className="post-img">
@@ -14,14 +14,14 @@
                 </div>
 
                 <div className="post-footer">
-                    <span><input type="text" name="tags" id="tags" defaultValue={this.props.tags}></input></span>
+                    <span><input style={{ minWidth: 555, marginLeft: 5 }} type="text" name="tags" id="tags" defaultValue={this.props.tags}></input></span>
                     <hr />
-                    <p><input type="text" name="description" id="description" defaultValue={this.props.description}></input></p>
+                    <p><textarea style={{ minWidth: 555, marginLeft: 0 }} name="description" id="description" defaultValue={this.props.description}></textarea></p>
                 </div>
-                <input type="checkbox" name="delete" id="delete" value={1} ></input>
+                <input style={{ marginLeft: 23 }} type="checkbox" name="delete" id="delete" value={1} ></input>
                 <label>Delete Post</label>
-                <p><button onClick={UpdatePost} >Save Changes</button></p>
                 <input type="hidden" name="postId" id="postId" />
+                <p><button style={{ marginLeft: 18 }} onClick={UpdatePost} >Save Changes</button></p>
             </div>
         );
     }

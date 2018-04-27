@@ -22,6 +22,19 @@
     padding-bottom: 20px;
 }
 
+.post input {
+    margin: auto;
+    border-radius: 2px;
+}
+
+.post textarea {
+    border-radius: 2px;
+}
+
+.post label {
+    padding: 5px;
+}
+
 .post-header, .post-footer {
     margin-left: 3%
 }
