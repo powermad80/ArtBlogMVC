@@ -1,7 +1,40 @@
-﻿class Post extends React.Component {
+﻿class Tag extends React.Component {
     constructor(props) {
         super(props);
     }
+
+    viewTag(props) {
+        document.getElementById("search").value = props.tag;
+        LoadPage();
+    }
+
+    render() {
+        return (
+            <span className="tag">
+                <a href="#" onClick={() => { this.viewTag(this.props) }} >{this.props.tag}</a>
+            </span>)
+    }
+
+}
+
+
+class Post extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    renderTags(tags) {
+        var taglist = tags.split(" ");
+        if (tags == "") {
+            return;
+        }
+        const listContent = taglist.map((taglist) =>
+            <Tag tag={taglist} />
+        );
+
+        return listContent;
+    }
+
     render() {
         return (
             <div className="post">
@@ -16,7 +49,7 @@
                 </div>
 
                 <div className="post-footer">
-                    <span>{this.props.tags}</span>
+                    {this.renderTags(this.props.tags)}
                     <hr />
                     <p>{this.props.description}</p>
                 </div>
