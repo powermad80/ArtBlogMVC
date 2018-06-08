@@ -1,15 +1,40 @@
-﻿class TestIt extends React.Component {
+﻿
+class Tag extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    viewTag(props) {
+        document.getElementById("search").value = props.tag;
+        LoadPage();
+    }
+
     render() {
         return (
-            <h1>It's Alive!</h1>
-        );
+            <span className="tag">
+                <a href="#" onClick={() => { this.viewTag(this.props) }} >{this.props.tag}</a>
+            </span>)
     }
+
 }
 
 class Post extends React.Component {
     constructor(props) {
         super(props);
     }
+
+    renderTags(tags) {
+        var taglist = tags.split(" ");
+        if (tags == "") {
+            return;
+        }
+        const listContent = taglist.map((taglist) =>
+            <Tag tag={taglist} />
+        );
+
+        return listContent;
+    }
+
     render() {
         return (
             <div className="post">
@@ -24,7 +49,7 @@ class Post extends React.Component {
                 </div> 
 
                 <div className="post-footer">
-                    <span>{this.props.tags}</span>
+                    {this.renderTags(this.props.tags)}
                     <hr />
                     <p>{this.props.description}</p>
                 </div>
@@ -33,23 +58,6 @@ class Post extends React.Component {
     }
 }
 
-
-
-//$.ajax({
-//    async: true,
-//    type: "POST",
-//    url: "Home/GetPosts",
-//    success: function (data) {
-//        const listContent = data.map((data) =>
-//            <Post className="post" key={data.id} id={data.id} title={data.title} imgUrl={"http://localhost:55621/" + data.imgUrl} description={data.description} tags={data.tags} />
-//        );                                                                              //Replace with window.location.hostname on deployment to actual URL
-//        ReactDOM.render(
-//            <div className="feed">{listContent}</div>,
-//            document.getElementById('content')
-//        );
-//        document.getElementById("pagenum").innerHTML = pagenum + " ";
-//    }
-//});
 var pagenum = 1;
 
 function LoadPage() {
@@ -65,7 +73,7 @@ function LoadPage() {
         success: function (data) {
             var posts = data.posts;
             const listContent = data.posts.map((posts) =>
-                <Post className="post" key={posts.id} id={posts.id} title={posts.title} imgUrl={"http://localhost:55621/" + posts.imgUrl} description={posts.description} tags={posts.tags} />
+                <Post className="post" key={posts.id} id={posts.id} title={posts.title} imgUrl={/*"http://localhost:55621/" + */posts.imgUrl} description={posts.description} tags={posts.tags} />
             );                                                                              //Replace with window.location.hostname on deployment to actual URL
             ReactDOM.render(
                 <div className="feed">{listContent}</div>,

@@ -154,6 +154,18 @@ img {
 
 }
 
+.tag a {
+    background-color: darkgrey;
+    color: black;
+    padding: 5px 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin-left: 2px;
+    margin-right: 2px;
+    border-radius: 5px;
+}
+
 .post-img {
     max-width: 600px;
     /*background-color: #c0c0c0;*/
