@@ -44,6 +44,11 @@ namespace ArtBlogMVC.Controllers
             return View("~/Views/Home/Login.cshtml");
         }
 
+        public IActionResult Commissions()
+        {
+            return View();
+        }
+
         public IActionResult Logout()
         {
             HttpContext.Session.Remove("auth");
